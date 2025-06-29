@@ -1,8 +1,8 @@
-import React, { Suspense, memo } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
 
-const AnimatedSphere = memo(require('./AnimatedSphere').default);
+const AnimatedSphere = lazy(() => import('./AnimatedSphere'));
 
 const ThreeScene = () => {
   return (
@@ -34,7 +34,9 @@ const ThreeScene = () => {
             speed={1}
           />
           
-          <AnimatedSphere />
+          <Suspense fallback={null}>
+            <AnimatedSphere />
+          </Suspense>
           
           <OrbitControls 
             enableZoom={false} 

@@ -268,12 +268,15 @@ const Index = () => {
                   <GlassmorphismCard delay={index * 0.1}>
                     <div className="relative overflow-hidden rounded-t-lg mb-4">
                       <motion.img 
-                        src={project.image.replace('.png', '.webp')} 
+                        src={project.image} 
                         alt={project.title}
                         className="w-full h-48 object-cover"
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.3 }}
                         loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.src = '/placeholder.svg';
+                        }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-end p-4">
                         <Button
@@ -381,8 +384,8 @@ const Index = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Suspense fallback={null}>
-                <GlassmorphismCard key={index} delay={index * 0.2}>
+              <Suspense key={index} fallback={null}>
+                <GlassmorphismCard delay={index * 0.2}>
                   <div className="p-6">
                     <div className="flex mb-4">
                       {[...Array(testimonial.rating)].map((_, i) => (
