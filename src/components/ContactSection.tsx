@@ -16,7 +16,7 @@ const ContactSection = () => {
     name: '',
     email: '',
     service: '',
-    budget: 5000,
+    budget: 8500,
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,11 +26,12 @@ const ContactSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const services = [
-    { value: 'website', label: '🌐 Website Development', budget: [2000, 10000] },
-    { value: 'ecommerce', label: '🛒 E-commerce Platform', budget: [5000, 25000] },
-    { value: 'app', label: '📱 Mobile App', budget: [8000, 30000] },
-    { value: 'design', label: '🎨 UI/UX Design', budget: [1500, 8000] },
-    { value: 'consulting', label: '💡 Consulting', budget: [500, 3000] }
+    { value: 'starter', label: '🚀 Starter - ₹8,500', budget: [8500, 8500], duration: '3-4 days', description: 'Perfect Entry Point' },
+    { value: 'business', label: '💼 Business - ₹15,000', budget: [15000, 15000], duration: '6-8 days', description: 'Sweet Spot for Small Businesses' },
+    { value: 'professional', label: '⭐ Professional - ₹25,000', budget: [25000, 25000], duration: '10-12 days', description: 'For Growing Businesses' },
+    { value: 'ecommerce', label: '🛒 E-commerce - ₹35,000', budget: [35000, 35000], duration: '15-18 days', description: 'Complete Online Store Solution' },
+    { value: 'premium', label: '👑 Premium - ₹45,000', budget: [45000, 45000], duration: '20-25 days', description: 'Enterprise-Grade E-commerce' },
+    { value: 'ai-enterprise', label: '🤖 AI Enterprise - Contact Us', budget: [50000, 100000], duration: 'Custom', description: 'AI-Powered Custom Solutions' }
   ];
 
   const handleInputChange = (field: string, value: any) => {
@@ -199,15 +200,15 @@ const ContactSection = () => {
                     <motion.div className="flex flex-col gap-2">
                       <div className="flex items-center justify-between mb-1">
                         <Label className="text-sm text-blue-400 font-semibold">💰 Project Budget</Label>
-                        <span className="text-white font-bold text-lg">${formData.budget.toLocaleString()}</span>
+                        <span className="text-white font-bold text-lg">₹{formData.budget.toLocaleString()}</span>
                       </div>
                       <BudgetSlider
                         value={formData.budget}
                         onChange={(value) => handleInputChange('budget', value)}
                       />
                       <div className="flex justify-between text-xs text-gray-400 mt-1">
-                        <span>$1,000</span>
-                        <span>$50,000+</span>
+                        <span>₹8,500</span>
+                        <span>₹100,000+</span>
                       </div>
                     </motion.div>
 
@@ -328,9 +329,9 @@ const ContactSection = () => {
               <h3 className="text-2xl font-bold text-white mb-6">Get In Touch</h3>
               <div className="space-y-4">
                 {[
-                  { icon: Mail, label: 'Email', value: 'hello@sushantrai.dev' },
-                  { icon: Phone, label: 'Phone', value: '+1 (555) 123-4567' },
-                  { icon: MapPin, label: 'Location', value: 'San Francisco, CA' }
+                  { icon: Mail, label: 'Email', value: 'rsushant583@gmail.com' },
+                  { icon: Phone, label: 'Phone', value: '+91 8004642369' },
+                  { icon: MapPin, label: 'Location', value: 'Uttar Pradesh, India' }
                 ].map((contact, index) => (
                   <motion.div
                     key={contact.label}
