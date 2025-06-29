@@ -1,8 +1,8 @@
-
-import React, { Suspense } from 'react';
+import React, { Suspense, memo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
-import AnimatedSphere from './AnimatedSphere';
+
+const AnimatedSphere = memo(require('./AnimatedSphere').default);
 
 const ThreeScene = () => {
   return (
@@ -17,7 +17,7 @@ const ThreeScene = () => {
         onCreated={(state) => {
           state.gl.setClearColor('#000000', 0);
         }}
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
       >
         <Suspense fallback={null}>
           <ambientLight intensity={0.4} />
@@ -27,7 +27,7 @@ const ThreeScene = () => {
           <Stars 
             radius={100} 
             depth={50} 
-            count={1000} 
+            count={500} 
             factor={4} 
             saturation={0} 
             fade 

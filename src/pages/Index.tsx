@@ -1,14 +1,16 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, Suspense, lazy } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Menu, X, ExternalLink, Play, ArrowRight, Star, Code, Palette, Rocket } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import ThreeScene from '@/components/ThreeScene';
 import CustomCursor from '@/components/CustomCursor';
-import ScrollAnimations from '@/components/ScrollAnimations';
 import GlassmorphismCard from '@/components/GlassmorphismCard';
 import AnimatedThemeToggle from '@/components/AnimatedThemeToggle';
 import ContactSection from '@/components/ContactSection';
+
+// Lazy load heavy components
+const ThreeScene = lazy(() => import('@/components/ThreeScene'));
+const ScrollAnimations = lazy(() => import('@/components/ScrollAnimations'));
 
 const Index = () => {
   console.log('Index component rendering');
@@ -81,7 +83,9 @@ const Index = () => {
   return (
     <div ref={containerRef} className={`min-h-screen ${isDarkMode ? 'dark bg-black' : 'bg-white'} text-white overflow-x-hidden relative`}>
       <CustomCursor />
-      <ScrollAnimations />
+      <Suspense fallback={null}>
+        <ScrollAnimations />
+      </Suspense>
       
       {/* Sticky Navigation */}
       <motion.nav 
@@ -122,7 +126,9 @@ const Index = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <AnimatedThemeToggle isDarkMode={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
+            <Suspense fallback={null}>
+              <AnimatedThemeToggle isDarkMode={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
+            </Suspense>
             
             <Button
               variant="ghost"
@@ -169,7 +175,9 @@ const Index = () => {
         <div className="hero-bg absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20" />
         
         {/* 3D Background */}
-        <ThreeScene />
+        <Suspense fallback={null}>
+          <ThreeScene />
+        </Suspense>
 
         <motion.div 
           className="relative z-10 text-center px-6 max-w-4xl mx-auto"
@@ -256,40 +264,43 @@ const Index = () => {
           <div className="projects-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
               <div key={index} className="project-card">
-                <GlassmorphismCard delay={index * 0.1}>
-                  <div className="relative overflow-hidden rounded-t-lg mb-4">
-                    <motion.img 
-                      src={project.image} 
-                      alt={project.title}
-                      className="w-full h-48 object-cover"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-end p-4">
-                      <Button
-                        asChild
-                        size="sm"
-                        variant="secondary"
-                        className="bg-white/20 backdrop-blur-md"
-                      >
-                        <a href={project.url} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      </Button>
+                <Suspense fallback={null}>
+                  <GlassmorphismCard delay={index * 0.1}>
+                    <div className="relative overflow-hidden rounded-t-lg mb-4">
+                      <motion.img 
+                        src={project.image.replace('.png', '.webp')} 
+                        alt={project.title}
+                        className="w-full h-48 object-cover"
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 0.3 }}
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-end p-4">
+                        <Button
+                          asChild
+                          size="sm"
+                          variant="secondary"
+                          className="bg-white/20 backdrop-blur-md"
+                        >
+                          <a href={project.url} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="h-4 w-4" />
+                          </a>
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-2">
-                    <h3 className="text-xl font-bold mb-2 text-white">{project.title}</h3>
-                    <p className="text-gray-400 mb-4">{project.description}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tech.map((tech, techIndex) => (
-                        <span key={techIndex} className="px-2 py-1 bg-blue-600/20 text-blue-400 rounded-md text-sm">
-                          {tech}
-                        </span>
-                      ))}
+                    <div className="p-2">
+                      <h3 className="text-xl font-bold mb-2 text-white">{project.title}</h3>
+                      <p className="text-gray-400 mb-4">{project.description}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tech.map((tech, techIndex) => (
+                          <span key={techIndex} className="px-2 py-1 bg-blue-600/20 text-blue-400 rounded-md text-sm">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </GlassmorphismCard>
+                  </GlassmorphismCard>
+                </Suspense>
               </div>
             ))}
           </div>
@@ -314,40 +325,42 @@ const Index = () => {
             </p>
           </motion.div>
 
-          <GlassmorphismCard className="mb-12">
-            <div className="text-center mb-8 p-8">
-              <h3 className="text-2xl font-bold mb-4 text-white">Explore My Complete Service Offerings</h3>
-              <p className="text-gray-400 mb-6">
-                From concept to launch, I provide end-to-end solutions with transparent pricing and clear deliverables.
-              </p>
-              <Button 
-                size="lg"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4"
-                onClick={() => window.open('https://service-offer-peach.vercel.app/', '_blank')}
-              >
-                View Pricing & Packages <ExternalLink className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-6 px-8 pb-8">
-              {[
-                { icon: Code, title: "Web Development", desc: "Custom websites & applications" },
-                { icon: Palette, title: "UI/UX Design", desc: "Beautiful, user-centered design" },
-                { icon: Rocket, title: "Optimization", desc: "Performance & SEO enhancement" }
-              ].map((service, index) => (
-                <motion.div 
-                  key={index}
-                  className="text-center p-6 rounded-xl bg-white/5 border border-white/10"
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  transition={{ duration: 0.3 }}
+          <Suspense fallback={null}>
+            <GlassmorphismCard className="mb-12">
+              <div className="text-center mb-8 p-8">
+                <h3 className="text-2xl font-bold mb-4 text-white">Explore My Complete Service Offerings</h3>
+                <p className="text-gray-400 mb-6">
+                  From concept to launch, I provide end-to-end solutions with transparent pricing and clear deliverables.
+                </p>
+                <Button 
+                  size="lg"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4"
+                  onClick={() => window.open('https://service-offer-peach.vercel.app/', '_blank')}
                 >
-                  <service.icon className="h-12 w-12 text-blue-400 mx-auto mb-4" />
-                  <h4 className="text-lg font-semibold mb-2 text-white">{service.title}</h4>
-                  <p className="text-gray-400 text-sm">{service.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-          </GlassmorphismCard>
+                  View Pricing & Packages <ExternalLink className="ml-2 h-5 w-5" />
+                </Button>
+              </div>
+              
+              <div className="grid md:grid-cols-3 gap-6 px-8 pb-8">
+                {[
+                  { icon: Code, title: "Web Development", desc: "Custom websites & applications" },
+                  { icon: Palette, title: "UI/UX Design", desc: "Beautiful, user-centered design" },
+                  { icon: Rocket, title: "Optimization", desc: "Performance & SEO enhancement" }
+                ].map((service, index) => (
+                  <motion.div 
+                    key={index}
+                    className="text-center p-6 rounded-xl bg-white/5 border border-white/10"
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <service.icon className="h-12 w-12 text-blue-400 mx-auto mb-4" />
+                    <h4 className="text-lg font-semibold mb-2 text-white">{service.title}</h4>
+                    <p className="text-gray-400 text-sm">{service.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </GlassmorphismCard>
+          </Suspense>
         </div>
       </section>
 
@@ -368,27 +381,31 @@ const Index = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <GlassmorphismCard key={index} delay={index * 0.2}>
-                <div className="p-6">
-                  <div className="flex mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                    ))}
+              <Suspense fallback={null}>
+                <GlassmorphismCard key={index} delay={index * 0.2}>
+                  <div className="p-6">
+                    <div className="flex mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                      ))}
+                    </div>
+                    <p className="text-gray-300 mb-6 italic">"{testimonial.content}"</p>
+                    <div>
+                      <p className="font-semibold text-white">{testimonial.name}</p>
+                      <p className="text-sm text-gray-400">{testimonial.role}</p>
+                    </div>
                   </div>
-                  <p className="text-gray-300 mb-6 italic">"{testimonial.content}"</p>
-                  <div>
-                    <p className="font-semibold text-white">{testimonial.name}</p>
-                    <p className="text-sm text-gray-400">{testimonial.role}</p>
-                  </div>
-                </div>
-              </GlassmorphismCard>
+                </GlassmorphismCard>
+              </Suspense>
             ))}
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <ContactSection />
+      <Suspense fallback={null}>
+        <ContactSection />
+      </Suspense>
 
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-white/10">
