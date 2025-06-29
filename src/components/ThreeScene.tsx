@@ -18,6 +18,7 @@ const ThreeScene = () => {
           state.gl.setClearColor('#000000', 0);
         }}
         dpr={[1, 1.5]}
+        performance={{ min: 0.5 }}
       >
         <Suspense fallback={null}>
           <ambientLight intensity={0.4} />
@@ -34,17 +35,16 @@ const ThreeScene = () => {
             speed={1}
           />
           
-          <Suspense fallback={null}>
-            <AnimatedSphere />
-          </Suspense>
+          <AnimatedSphere />
           
           <OrbitControls 
-            enableZoom={false} 
-            autoRotate 
-            autoRotateSpeed={0.5}
+            enableZoom={false}
             enablePan={false}
-            enableDamping
-            dampingFactor={0.05}
+            enableRotate={true}
+            autoRotate={true}
+            autoRotateSpeed={0.5}
+            maxPolarAngle={Math.PI / 2}
+            minPolarAngle={Math.PI / 2}
           />
         </Suspense>
       </Canvas>

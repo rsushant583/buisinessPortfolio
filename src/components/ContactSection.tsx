@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Rocket, Mail, Phone, MapPin, MessageCircle, Mic, MicOff, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -96,21 +96,21 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="relative min-h-screen py-24 px-6 overflow-hidden bg-gradient-to-br from-black via-blue-950/20 to-purple-950/20">
+    <section id="contact" ref={sectionRef} className="relative min-h-screen py-16 sm:py-20 md:py-24 px-4 sm:px-6 overflow-hidden bg-gradient-to-br from-black via-blue-950/20 to-purple-950/20">
       {/* Background Effects */}
       <ContactBackground />
       
       <div className="container mx-auto max-w-6xl relative z-10">
         {/* Section Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
           <motion.h2 
-            className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-400 to-purple-600 bg-clip-text text-transparent"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-white via-blue-400 to-purple-600 bg-clip-text text-transparent"
             initial={{ opacity: 0, scale: 0.5 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "backOut" }}
@@ -119,7 +119,7 @@ const ContactSection = () => {
             Let's Create Magic ✨
           </motion.h2>
           <motion.p 
-            className="text-xl text-gray-300 max-w-2xl mx-auto"
+            className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto px-4"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -129,7 +129,7 @@ const ContactSection = () => {
           </motion.p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -100 }}
@@ -137,13 +137,13 @@ const ContactSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <GlassmorphismCard className="p-8">
+            <GlassmorphismCard className="p-6 sm:p-8">
               <AnimatePresence mode="wait">
                 {!isSubmitted ? (
                   <motion.form
                     key="form"
                     onSubmit={handleSubmit}
-                    className="space-y-8"
+                    className="space-y-6 sm:space-y-8"
                     initial={{ opacity: 1 }}
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.5 }}
@@ -157,7 +157,7 @@ const ContactSection = () => {
                         onChange={(e) => handleInputChange('name', e.target.value)}
                         onFocus={() => setFocusedField('name')}
                         onBlur={() => setFocusedField(null)}
-                        className="bg-white/5 border-white/20 text-white placeholder-gray-400 h-14 text-lg focus:border-blue-400 focus:ring-blue-400/50 focus:bg-white/10 transition-all duration-300"
+                        className="bg-white/5 border-white/20 text-white placeholder-gray-400 h-12 sm:h-14 text-base sm:text-lg focus:border-blue-400 focus:ring-blue-400/50 focus:bg-white/10 transition-all duration-300"
                         required
                       />
                     </motion.div>
@@ -172,7 +172,7 @@ const ContactSection = () => {
                         onChange={(e) => handleInputChange('email', e.target.value)}
                         onFocus={() => setFocusedField('email')}
                         onBlur={() => setFocusedField(null)}
-                        className="bg-white/5 border-white/20 text-white placeholder-gray-400 h-14 text-lg focus:border-blue-400 focus:ring-blue-400/50 focus:bg-white/10 transition-all duration-300"
+                        className="bg-white/5 border-white/20 text-white placeholder-gray-400 h-12 sm:h-14 text-base sm:text-lg focus:border-blue-400 focus:ring-blue-400/50 focus:bg-white/10 transition-all duration-300"
                         required
                       />
                     </motion.div>
@@ -186,7 +186,7 @@ const ContactSection = () => {
                             key={service.value}
                             type="button"
                             onClick={() => handleInputChange('service', service.value)}
-                            className={`p-3 rounded-lg border text-left transition-all duration-300 ${formData.service === service.value ? 'border-blue-400 bg-blue-400/20 text-blue-400' : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40 hover:bg-white/10'}`}
+                            className={`p-3 sm:p-4 rounded-lg border text-left transition-all duration-300 text-sm sm:text-base ${formData.service === service.value ? 'border-blue-400 bg-blue-400/20 text-blue-400' : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40 hover:bg-white/10'}`}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
@@ -198,112 +198,99 @@ const ContactSection = () => {
 
                     {/* Budget Slider */}
                     <motion.div className="flex flex-col gap-2">
-                      <div className="flex items-center justify-between mb-1">
-                        <Label className="text-sm text-blue-400 font-semibold">💰 Project Budget</Label>
-                        <span className="text-white font-bold text-lg">₹{formData.budget.toLocaleString()}</span>
-                      </div>
-                      <BudgetSlider
-                        value={formData.budget}
-                        onChange={(value) => handleInputChange('budget', value)}
-                      />
-                      <div className="flex justify-between text-xs text-gray-400 mt-1">
-                        <span>₹8,500</span>
-                        <span>₹100,000+</span>
+                      <Label className="text-sm text-blue-400 font-semibold mb-1">💰 Project Budget</Label>
+                      <div className="space-y-4">
+                        <BudgetSlider value={formData.budget} onChange={(value) => handleInputChange('budget', value)} />
+                        <div className="flex justify-between text-xs sm:text-sm text-gray-400">
+                          <span>₹8,500</span>
+                          <span>₹100,000+</span>
+                        </div>
                       </div>
                     </motion.div>
 
                     {/* Message Input */}
-                    <motion.div className="flex flex-col gap-2 relative" whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
-                      <Label htmlFor="message" className="text-sm text-blue-400 font-semibold flex items-center gap-1">
-                        {getSentimentEmoji(formData.message)} Tell me about your project
-                      </Label>
-                      <Textarea
-                        id="message"
-                        value={formData.message}
-                        onChange={(e) => handleInputChange('message', e.target.value)}
-                        onFocus={() => setFocusedField('message')}
-                        onBlur={() => setFocusedField(null)}
-                        className="bg-white/5 border-white/20 text-white placeholder-gray-400 min-h-32 text-lg focus:border-blue-400 focus:ring-blue-400/50 focus:bg-white/10 transition-all duration-300 resize-none"
-                        placeholder="Describe your vision, goals, and what makes your project special..."
-                        required
-                      />
-                      {/* Voice Recording Button */}
-                      <motion.button
-                        type="button"
-                        onClick={toggleRecording}
-                        className={`absolute bottom-3 right-3 p-2 rounded-full transition-all duration-300 ${isRecording ? 'bg-red-500 text-white animate-pulse' : 'bg-white/10 text-gray-400 hover:bg-white/20'}`}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        {isRecording ? <MicOff size={16} /> : <Mic size={16} />}
-                      </motion.button>
+                    <motion.div className="flex flex-col gap-2" whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
+                      <Label htmlFor="message" className="text-sm text-blue-400 font-semibold">💬 Tell me about your project</Label>
+                      <div className="relative">
+                        <Textarea
+                          id="message"
+                          value={formData.message}
+                          onChange={(e) => handleInputChange('message', e.target.value)}
+                          onFocus={() => setFocusedField('message')}
+                          onBlur={() => setFocusedField(null)}
+                          className="bg-white/5 border-white/20 text-white placeholder-gray-400 min-h-[120px] sm:min-h-[140px] text-base sm:text-lg focus:border-blue-400 focus:ring-blue-400/50 focus:bg-white/10 transition-all duration-300 resize-none"
+                          placeholder="Describe your project, goals, and any specific requirements..."
+                          required
+                        />
+                        <div className="absolute bottom-3 right-3 flex space-x-2">
+                          <motion.button
+                            type="button"
+                            onClick={toggleRecording}
+                            className={`p-2 rounded-full transition-all duration-300 ${isRecording ? 'bg-red-500/20 text-red-400' : 'bg-white/10 text-gray-400 hover:bg-white/20'}`}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                          >
+                            {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                          </motion.button>
+                        </div>
+                      </div>
                     </motion.div>
 
                     {/* Submit Button */}
-                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <motion.div className="pt-4">
                       <Button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-lg font-semibold rounded-xl transition-all duration-300"
+                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 sm:py-4 text-base sm:text-lg font-semibold group relative overflow-hidden"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                       >
-                        <AnimatePresence mode="wait">
+                        <span className="flex items-center justify-center">
                           {isSubmitting ? (
-                            <motion.div
-                              key="loading"
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              exit={{ opacity: 0 }}
-                              className="flex items-center gap-3"
-                            >
+                            <>
                               <motion.div
+                                className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full mr-3"
                                 animate={{ rotate: 360 }}
                                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
                               />
-                              <span>Launching Your Message...</span>
-                            </motion.div>
+                              Sending Message...
+                            </>
                           ) : (
-                            <motion.div
-                              key="send"
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              exit={{ opacity: 0 }}
-                              className="flex items-center gap-3"
-                            >
-                              <Rocket className="w-5 h-5" />
-                              <span>Send Message</span>
-                            </motion.div>
+                            <>
+                              <Send className="mr-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                              Send Message
+                              <Sparkles className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:rotate-12 transition-transform duration-300" />
+                            </>
                           )}
-                        </AnimatePresence>
+                        </span>
                       </Button>
                     </motion.div>
                   </motion.form>
                 ) : (
                   <motion.div
                     key="success"
-                    initial={{ opacity: 0, scale: 0.8, rotateY: -90 }}
-                    animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-                    transition={{ duration: 0.8, ease: "backOut" }}
-                    className="text-center py-12"
+                    className="text-center py-8 sm:py-12"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
                   >
                     <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-                      className="mb-6"
+                      className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6"
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 0.6, repeat: 2 }}
                     >
-                      <div className="w-20 h-20 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Sparkles className="w-10 h-10 text-white" />
-                      </div>
+                      <Rocket className="h-10 w-10 text-green-400" />
                     </motion.div>
-                    <h3 className="text-3xl font-bold text-white mb-4">Thank You! 🚀</h3>
-                    <p className="text-gray-300 mb-6">
-                      Your message has been received! I'll get back to you within 24 hours with a detailed proposal.
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">Message Sent Successfully! 🚀</h3>
+                    <p className="text-gray-300 text-sm sm:text-base mb-6">
+                      Thank you for reaching out! I'll get back to you within 24 hours with a detailed response.
                     </p>
                     <Button
-                      onClick={() => setIsSubmitted(false)}
-                      variant="outline"
-                      className="border-white/20 text-white hover:bg-white/10"
+                      onClick={() => {
+                        setIsSubmitted(false);
+                        setFormData({ name: '', email: '', service: '', budget: 8500, message: '' });
+                      }}
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 sm:px-8 py-3 sm:py-4"
                     >
                       Send Another Message
                     </Button>
@@ -313,59 +300,77 @@ const ContactSection = () => {
             </GlassmorphismCard>
           </motion.div>
 
-          {/* Right Side - 3D Envelope & Contact Info */}
+          {/* Contact Information */}
           <motion.div
             initial={{ opacity: 0, x: 100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
-            className="space-y-8"
+            className="space-y-6 sm:space-y-8"
           >
-            {/* 3D Envelope Animation */}
-            <AnimatedEnvelope isTyping={!!formData.message} />
+            <GlassmorphismCard className="p-6 sm:p-8">
+              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">Get In Touch</h3>
+              <div className="space-y-6">
+                <motion.div 
+                  className="flex items-start space-x-4"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Mail className="h-6 w-6 text-blue-400" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-white mb-1">Email</h4>
+                    <a 
+                      href="mailto:rsushant583@gmail.com" 
+                      className="text-gray-300 hover:text-blue-400 transition-colors duration-300 text-sm sm:text-base break-all"
+                    >
+                      rsushant583@gmail.com
+                    </a>
+                  </div>
+                </motion.div>
 
-            {/* Contact Information */}
-            <GlassmorphismCard className="p-6">
-              <h3 className="text-2xl font-bold text-white mb-6">Get In Touch</h3>
-              <div className="space-y-4">
-                {[
-                  { icon: Mail, label: 'Email', value: 'rsushant583@gmail.com' },
-                  { icon: Phone, label: 'Phone', value: '+91 8004642369' },
-                  { icon: MapPin, label: 'Location', value: 'Uttar Pradesh, India' }
-                ].map((contact, index) => (
-                  <motion.div
-                    key={contact.label}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-center gap-4 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300"
-                  >
-                    <contact.icon className="w-5 h-5 text-blue-400" />
-                    <div>
-                      <p className="text-sm text-gray-400">{contact.label}</p>
-                      <p className="text-white">{contact.value}</p>
-                    </div>
-                  </motion.div>
-                ))}
+                <motion.div 
+                  className="flex items-start space-x-4"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Phone className="h-6 w-6 text-green-400" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-white mb-1">Phone</h4>
+                    <a 
+                      href="tel:+918004642369" 
+                      className="text-gray-300 hover:text-green-400 transition-colors duration-300 text-sm sm:text-base"
+                    >
+                      +91 8004642369
+                    </a>
+                  </div>
+                </motion.div>
+
+                <motion.div 
+                  className="flex items-start space-x-4"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <MapPin className="h-6 w-6 text-purple-400" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-white mb-1">Location</h4>
+                    <p className="text-gray-300 text-sm sm:text-base">Uttar Pradesh, India</p>
+                  </div>
+                </motion.div>
               </div>
             </GlassmorphismCard>
 
-            {/* AI Assistant Widget */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="fixed bottom-6 right-6 z-50"
-            >
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 p-4 rounded-full shadow-2xl"
-                onClick={() => toast("🤖 AI Assistant coming soon!", { description: "This feature will be available in the next update!" })}
-              >
-                <MessageCircle className="w-6 h-6 text-white" />
-              </motion.button>
-            </motion.div>
+            {/* Animated Envelope */}
+            <div className="hidden lg:block">
+              <Suspense fallback={null}>
+                <AnimatedEnvelope />
+              </Suspense>
+            </div>
           </motion.div>
         </div>
       </div>

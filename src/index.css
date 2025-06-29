@@ -102,4 +102,195 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Mobile-first responsive improvements */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom slider styles for better mobile interaction */
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+  }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  .slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  .slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Touch-friendly button improvements */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Better text rendering on mobile */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Smooth scrolling for iOS */
+  @supports (-webkit-overflow-scrolling: touch) {
+    html {
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  /* Prevent zoom on input focus for iOS */
+  @media screen and (max-width: 768px) {
+    input, textarea, select {
+      font-size: 16px !important;
+    }
+  }
+
+  /* Custom scrollbar for webkit browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Glassmorphism effect improvements */
+  .glassmorphism {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Animation performance optimizations */
+  .transform-gpu {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* Mobile-specific improvements */
+  @media (max-width: 640px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    /* Ensure proper spacing on mobile */
+    .space-y-6 > * + * {
+      margin-top: 1.5rem;
+    }
+    
+    .space-y-8 > * + * {
+      margin-top: 2rem;
+    }
+  }
+
+  /* Landscape mode improvements */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .hero-section {
+      min-height: 100vh;
+      padding-top: 80px;
+      padding-bottom: 40px;
+    }
+  }
+
+  /* High DPI display optimizations */
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .hero-section {
+      background-image: url('/hero-bg@2x.jpg');
+    }
+  }
+}
+
+/* Custom utility classes for responsive design */
+@layer utilities {
+  .text-responsive {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+  }
+  
+  .text-responsive-lg {
+    font-size: clamp(1.5rem, 6vw, 3rem);
+  }
+  
+  .text-responsive-xl {
+    font-size: clamp(2rem, 8vw, 4rem);
+  }
+  
+  .text-responsive-2xl {
+    font-size: clamp(2.5rem, 10vw, 5rem);
+  }
+  
+  .text-responsive-3xl {
+    font-size: clamp(3rem, 12vw, 6rem);
+  }
+  
+  .text-responsive-4xl {
+    font-size: clamp(3.5rem, 14vw, 7rem);
+  }
+  
+  .text-responsive-5xl {
+    font-size: clamp(4rem, 16vw, 8rem);
+  }
+  
+  /* Responsive spacing */
+  .space-responsive {
+    padding: clamp(1rem, 4vw, 2rem);
+  }
+  
+  .space-responsive-lg {
+    padding: clamp(2rem, 6vw, 4rem);
+  }
+  
+  .space-responsive-xl {
+    padding: clamp(3rem, 8vw, 6rem);
+  }
+  
+  /* Responsive grid */
+  .grid-responsive {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  }
+  
+  .grid-responsive-sm {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  }
+  
+  .grid-responsive-lg {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  }
 }
