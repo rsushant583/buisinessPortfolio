@@ -7,10 +7,10 @@ import CustomCursor from '@/components/CustomCursor';
 import GlassmorphismCard from '@/components/GlassmorphismCard';
 import AnimatedThemeToggle from '@/components/AnimatedThemeToggle';
 import ContactSection from '@/components/ContactSection';
+import ScrollAnimations from '../components/ScrollAnimations';
 
 // Lazy load heavy components
 const ThreeScene = lazy(() => import('@/components/ThreeScene'));
-const ScrollAnimations = lazy(() => import('@/components/ScrollAnimations'));
 
 const Index = () => {
   console.log('Index component rendering');
@@ -56,6 +56,27 @@ const Index = () => {
       url: "https://gaurav-madan-website.vercel.app",
       image: "/gm.png",
       tech: ["React", "Three.js", "GSAP"]
+    },
+    {
+      title: "Ayushman Cafe",
+      description: "Modern cafe website with menu and online presence.",
+      url: "https://ayushmancafe.vercel.app/",
+      image: "/ayushmancafe.png",
+      tech: ["Next.js", "Tailwind CSS"]
+    },
+    {
+      title: "Ayushi Premium",
+      description: "Premium product showcase and landing page.",
+      url: "https://ayushi-premium.vercel.app/",
+      image: "/ayushipremium.png",
+      tech: ["Next.js", "Tailwind CSS"]
+    },
+    {
+      title: "Retail Grid",
+      description: "Retail business grid platform for modern commerce.",
+      url: "https://retail-grid.vercel.app",
+      image: "/retailgrid.png",
+      tech: ["React", "Tailwind CSS"]
     }
   ];
 
@@ -83,11 +104,7 @@ const Index = () => {
   return (
     <div ref={containerRef} className={`min-h-screen ${isDarkMode ? 'dark bg-black' : 'bg-white'} text-white overflow-x-hidden relative`}>
       <CustomCursor />
-      <Suspense fallback={null}>
-        <ScrollAnimations />
-      </Suspense>
-      
-      {/* Sticky Navigation */}
+      {/* Restore original sticky navigation */}
       <motion.nav 
         className="fixed top-0 w-full z-50 backdrop-blur-md bg-black/20 border-b border-white/10"
         initial={{ y: -100 }}
@@ -104,7 +121,6 @@ const Index = () => {
             <span className="sm:hidden">SR</span>
             <span className="text-xs sm:text-sm block sm:inline sm:ml-2 text-gray-400">web services</span>
           </motion.div>
-          
           <div className="hidden md:flex space-x-6 lg:space-x-8">
             {[
               { name: 'Home', id: 'home' },
@@ -124,12 +140,10 @@ const Index = () => {
               </motion.button>
             ))}
           </div>
-
           <div className="flex items-center space-x-2 sm:space-x-4">
             <Suspense fallback={null}>
               <AnimatedThemeToggle isDarkMode={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
             </Suspense>
-            
             <Button
               variant="ghost"
               size="sm"
@@ -140,7 +154,6 @@ const Index = () => {
             </Button>
           </div>
         </div>
-
         {/* Mobile Menu */}
         {isMenuOpen && (
           <motion.div
@@ -169,7 +182,8 @@ const Index = () => {
           </motion.div>
         )}
       </motion.nav>
-
+      <ScrollAnimations />
+      
       {/* Hero Section */}
       <section id="home" className="hero-section relative h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6">
         <div className="hero-bg absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20" />

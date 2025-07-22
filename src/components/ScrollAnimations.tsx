@@ -7,6 +7,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ScrollAnimations = () => {
   useEffect(() => {
+    // Ensure ScrollTrigger uses window as scroller (Lenis integration)
+    ScrollTrigger.defaults({ scroller: window });
+
     // Hero section parallax
     gsap.to('.hero-bg', {
       yPercent: -50,
@@ -71,6 +74,9 @@ const ScrollAnimations = () => {
       onEnterBack: () => gsap.to('body', { backgroundColor: '#0f0f23', duration: 0.5 }),
       onLeaveBack: () => gsap.to('body', { backgroundColor: '#000000', duration: 0.5 })
     });
+
+    // Refresh ScrollTrigger after setup to sync with Lenis
+    ScrollTrigger.refresh();
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
