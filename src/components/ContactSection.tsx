@@ -116,7 +116,7 @@ const ContactSection = () => {
             transition={{ duration: 1, ease: "backOut" }}
             viewport={{ once: true }}
           >
-            Let's Create Magic ✨
+            Ready to Build Your Competitive Edge?
           </motion.h2>
           <motion.p 
             className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto px-4"
@@ -125,7 +125,7 @@ const ContactSection = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            Ready to transform your vision into a digital masterpiece? Let's discuss your next project.
+            Let's discuss your growth goals and how we can help you build a website that delivers measurable results.
           </motion.p>
         </motion.div>
 
@@ -198,12 +198,12 @@ const ContactSection = () => {
 
                     {/* Budget Slider */}
                     <motion.div className="flex flex-col gap-2">
-                      <Label className="text-sm text-blue-400 font-semibold mb-1">💰 Project Budget</Label>
+                      <Label className="text-sm text-blue-400 font-semibold mb-1">💰 What is your approximate budget for this project?</Label>
                       <div className="space-y-4">
-                        <BudgetSlider value={formData.budget} onChange={(value) => handleInputChange('budget', value)} />
+                        <BudgetSlider min={30000} max={250000} value={formData.budget} onChange={(value) => handleInputChange('budget', value)} />
                         <div className="flex justify-between text-xs sm:text-sm text-gray-400">
-                          <span>₹8,500</span>
-                          <span>₹100,000+</span>
+                          <span>₹30,000</span>
+                          <span>₹2,50,000+</span>
                         </div>
                       </div>
                     </motion.div>
@@ -258,7 +258,7 @@ const ContactSection = () => {
                           ) : (
                             <>
                               <Send className="mr-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300" />
-                              Send Message
+                              Start the Conversation
                               <Sparkles className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:rotate-12 transition-transform duration-300" />
                             </>
                           )}

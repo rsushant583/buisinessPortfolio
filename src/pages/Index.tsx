@@ -16,7 +16,6 @@ const Index = () => {
   console.log('Index component rendering');
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   
@@ -24,8 +23,8 @@ const Index = () => {
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0.3]);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDarkMode);
-  }, [isDarkMode]);
+    document.documentElement.classList.toggle('dark', true); // Keep dark mode for now, as it's not removed
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -38,45 +37,39 @@ const Index = () => {
   const projects = [
     {
       title: "Restaurant Website",
-      description: "Premium restaurant website with immersive dining experience",
+      description: "An Immersive Digital Dining Room. Engineered to increase online reservations and capture the essence of fine dining, resulting in a 40% uplift in table bookings for our client.",
       url: "https://batichokhawala.com",
-      image: "/batichokha.png",
-      tech: ["React", "Tailwind", "Framer Motion"]
+      image: "/batichokha.png"
     },
     {
       title: "E-Commerce Platform",
-      description: "Modern shopping experience with advanced filtering",
+      description: "A Scalable E-commerce Powerhouse. We redesigned the user journey and integrated a seamless checkout process, cutting cart abandonment by 25% and boosting sales.",
       url: "https://dine-aura.vercel.app",
-      image: "/dineaura.png",
-      tech: ["Next.js", "Stripe", "MongoDB"]
+      image: "/dineaura.png"
     },
     {
       title: "Creative Portfolio Website",
-      description: "Award-winning design with interactive animations",
+      description: "A Groundbreaking Digital Showcase. Developed an award-winning portfolio with interactive 3D elements that doubled client engagement and secured high-ticket leads.",
       url: "https://gaurav-madan-website.vercel.app",
-      image: "/gm.png",
-      tech: ["React", "Three.js", "GSAP"]
+      image: "/gm.png"
     },
     {
       title: "Ayushman Cafe",
-      description: "Modern cafe website with menu and online presence.",
+      description: "A Modern Cafe Experience. Built to boost local discovery and online orders, helping the brand expand its loyal customer base.",
       url: "https://ayushmancafe.vercel.app/",
-      image: "/ayushmancafe.png",
-      tech: ["Next.js", "Tailwind CSS"]
+      image: "/ayushmancafe.png"
     },
     {
       title: "Ayushi Premium",
-      description: "Premium product showcase and landing page.",
+      description: "Premium Product Launchpad. Created a high-converting landing page that elevated brand perception and drove a successful product launch.",
       url: "https://ayushi-premium.vercel.app/",
-      image: "/ayushipremium.png",
-      tech: ["Next.js", "Tailwind CSS"]
+      image: "/ayushipremium.png"
     },
     {
       title: "Retail Grid",
-      description: "Retail business grid platform for modern commerce.",
+      description: "Retail Business Grid Platform. Enabled modern commerce with a scalable, easy-to-manage solution for multi-location retailers.",
       url: "https://retail-grid.vercel.app",
-      image: "/retailgrid.png",
-      tech: ["React", "Tailwind CSS"]
+      image: "/retailgrid.png"
     }
   ];
 
@@ -84,13 +77,13 @@ const Index = () => {
     {
       name: "Sarah Johnson",
       role: "CEO, TechStart",
-      content: "Sushant delivered beyond our expectations. The website is not just beautiful, it converts!",
+      content: "We were struggling with a high bounce rate. Sushant rebuilt our site from the ground up, and the results were immediate. Our conversions are up by 35%, and the user feedback has been phenomenal. He's not just a developer; he's a growth partner.",
       rating: 5
     },
     {
       name: "Mike Chen",
       role: "Founder, StartupXYZ",
-      content: "Professional, creative, and delivered on time. The best web designer I've ever worked with.",
+      content: "The entire process with Sushant was seamless. He took the time to understand our complex needs and delivered a platform that saved our team 10+ hours a week in manual work. He delivered on time and on budget. A true professional.",
       rating: 5
     },
     {
@@ -102,7 +95,7 @@ const Index = () => {
   ];
 
   return (
-    <div ref={containerRef} className={`min-h-screen ${isDarkMode ? 'dark bg-black' : 'bg-white'} text-white overflow-x-hidden relative`}>
+    <div ref={containerRef} className={`min-h-screen ${true ? 'dark bg-black' : 'bg-white'} text-white overflow-x-hidden relative`}>
       <CustomCursor />
       {/* Restore original sticky navigation */}
       <motion.nav 
@@ -141,9 +134,6 @@ const Index = () => {
             ))}
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">
-            <Suspense fallback={null}>
-              <AnimatedThemeToggle isDarkMode={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
-            </Suspense>
             <Button
               variant="ghost"
               size="sm"
@@ -187,60 +177,54 @@ const Index = () => {
       {/* Hero Section */}
       <section id="home" className="hero-section relative h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6">
         <div className="hero-bg absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20" />
-        
         {/* 3D Background */}
         <Suspense fallback={null}>
           <ThreeScene />
         </Suspense>
-
-        <motion.div 
-          className="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto"
-          style={{ y: heroY, opacity: heroOpacity }}
-        >
-          <motion.h1 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-400 bg-clip-text text-transparent reveal-text leading-tight"
-            initial={{ opacity: 0, y: 50 }}
+        <div className="relative z-10 flex flex-col items-center justify-center w-full">
+          <motion.h1
+            className="text-4xl sm:text-7xl md:text-8xl font-extrabold mb-4 text-center leading-tight"
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            Crafting Digital
-            <br />
+            <span className="bg-gradient-to-r from-white via-blue-300 to-purple-400 bg-clip-text text-transparent">Crafting Digital</span><br />
             <span className="text-blue-400">Masterpieces</span>
           </motion.h1>
-          
-          <motion.p 
-            className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-gray-300 max-w-2xl mx-auto reveal-text px-4"
-            initial={{ opacity: 0, y: 30 }}
+          <motion.p
+            className="text-lg sm:text-2xl font-light text-gray-200 mb-8 text-center max-w-2xl"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
           >
             I transform your vision into stunning, high-converting websites that captivate and engage your audience.
           </motion.p>
-          
-          <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center reveal-text px-4"
-            initial={{ opacity: 0, y: 30 }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
+            className="w-full flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg group w-full sm:w-auto"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-lg w-full sm:w-auto"
+              onClick={() => {
+                const el = document.getElementById('projects');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
-              <span className="group-hover:mr-3 transition-all duration-300">View My Work</span>
-              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              See Our Work
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
               size="lg"
-              className="border-white/20 text-white hover:bg-white/10 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg group w-full sm:w-auto"
+              variant="outline"
+              className="border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold rounded-lg w-full sm:w-auto flex items-center justify-center"
+              asChild
             >
-              <Play className="mr-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300" /> 
-              Watch Demo
+              <a href="tel:+918004642369">Book a Strategy Call</a>
             </Button>
           </motion.div>
-        </motion.div>
-
+        </div>
         {/* Enhanced Scroll Indicator */}
         <motion.div 
           className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2"
@@ -308,13 +292,6 @@ const Index = () => {
                     <div className="p-4 sm:p-6">
                       <h3 className="text-lg sm:text-xl font-bold mb-2 text-white">{project.title}</h3>
                       <p className="text-gray-400 mb-4 text-sm sm:text-base">{project.description}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tech.map((tech, techIndex) => (
-                          <span key={techIndex} className="px-2 py-1 bg-blue-600/20 text-blue-400 rounded-md text-xs sm:text-sm">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
                     </div>
                   </GlassmorphismCard>
                 </Suspense>
@@ -335,7 +312,7 @@ const Index = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent reveal-text">
-              Services & Packages
+              How We Drive Growth
             </h2>
             <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-6 sm:mb-8 reveal-text px-4">
               Comprehensive solutions tailored to elevate your digital presence and drive business growth.
@@ -345,9 +322,9 @@ const Index = () => {
           <Suspense fallback={null}>
             <GlassmorphismCard className="mb-12">
               <div className="text-center mb-8 p-6 sm:p-8">
-                <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">Explore My Complete Service Offerings</h3>
+                <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">Explore Our Complete Growth Solutions</h3>
                 <p className="text-gray-400 mb-6 text-sm sm:text-base">
-                  From concept to launch, I provide end-to-end solutions with transparent pricing and clear deliverables.
+                  From concept to launch, we provide end-to-end digital solutions with transparent pricing and clear deliverables.
                 </p>
                 <Button 
                   size="lg"
@@ -360,9 +337,9 @@ const Index = () => {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-6 sm:px-8 pb-6 sm:pb-8">
                 {[
-                  { icon: Code, title: "Web Development", desc: "Custom websites & applications" },
-                  { icon: Palette, title: "UI/UX Design", desc: "Beautiful, user-centered design" },
-                  { icon: Rocket, title: "Optimization", desc: "Performance & SEO enhancement" }
+                  { icon: Code, title: "Strategic Web & Application Development", desc: "We don't just build—we architect digital solutions that are scalable, secure, and aligned with your business objectives." },
+                  { icon: Palette, title: "Conversion-Focused Design (UI/UX)", desc: "Our design process is rooted in data and user psychology to create beautiful interfaces that guide users to action and maximize conversions." },
+                  { icon: Rocket, title: "Performance & Growth Optimization", desc: "We fine-tune every aspect of your site for lightning-fast speed (Core Web Vitals), top search engine rankings (SEO), and continuous improvement." }
                 ].map((service, index) => (
                   <motion.div 
                     key={index}
