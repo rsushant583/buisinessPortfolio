@@ -209,19 +209,22 @@ const Index = () => {
               size="lg" 
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-lg w-full sm:w-auto"
               onClick={() => {
-                const el = document.getElementById('projects');
+                const el = document.getElementById('footer');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              See Our Work
+              Order Online
             </Button>
             <Button
               size="lg"
               variant="outline"
               className="border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold rounded-lg w-full sm:w-auto flex items-center justify-center"
-              asChild
+              onClick={() => {
+                const el = document.getElementById('footer');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
-              <a href="tel:+918004642369">Book a Strategy Call</a>
+              Book a Table
             </Button>
           </motion.div>
         </div>
@@ -402,13 +405,32 @@ const Index = () => {
       </Suspense>
 
       {/* Footer */}
-      <footer className="py-8 sm:py-12 px-4 sm:px-6 border-t border-white/10">
+      <footer id="footer" className="py-8 sm:py-12 px-4 sm:px-6 border-t border-white/10">
         <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-            <div className="text-center sm:text-left">
-              <p className="text-gray-400 text-sm sm:text-base">© 2026 Sushant Rai. Crafted with passion and precision.</p>
+          <div className="flex flex-col space-y-6 sm:space-y-8">
+            {/* Contact Details */}
+            <div className="text-center">
+              <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white">Get In Touch</h3>
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8">
+                <motion.a
+                  href="mailto:rsushant583@gmail.com"
+                  className="text-gray-300 hover:text-blue-400 transition-colors duration-300 text-sm sm:text-base flex items-center gap-2"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                >
+                  <span>📧</span> rsushant583@gmail.com
+                </motion.a>
+                <motion.a
+                  href="tel:+918004642369"
+                  className="text-gray-300 hover:text-blue-400 transition-colors duration-300 text-sm sm:text-base flex items-center gap-2"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                >
+                  <span>📞</span> +91 8004642369
+                </motion.a>
+              </div>
             </div>
-            <div className="flex flex-wrap justify-center sm:justify-end gap-4 sm:gap-6">
+            
+            {/* Social Links */}
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
               {[
                 { name: 'LinkedIn', url: 'https://www.linkedin.com/in/itsmehsushat/' },
                 { name: 'GitHub', url: 'https://github.com/rsushant583' },
@@ -426,6 +448,27 @@ const Index = () => {
                   {social.name}
                 </motion.a>
               ))}
+            </div>
+            
+            {/* Copyright and Credits */}
+            <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 pt-4 border-t border-white/10">
+              <div className="text-center sm:text-left">
+                <p className="text-gray-400 text-sm sm:text-base">© 2026 Sushant Rai. Crafted with passion and precision.</p>
+              </div>
+              <div className="text-center sm:text-right">
+                <p className="text-gray-400 text-sm sm:text-base">
+                  Designed and Developed by{' '}
+                  <motion.a
+                    href="https://sushantbuisiness-portfolio.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:text-blue-300 transition-colors duration-300 font-semibold"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    Sushant Rai
+                  </motion.a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
